@@ -1,0 +1,76 @@
+body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: sans-serif;
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+section {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    padding: 10px;
+    font-size: 42px;
+    font-weight: 300;
+}
+
+#output {
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 15px;
+}
+
+.button {
+    flex-basis: calc(25% - 10px);
+    margin: 5px;
+    border: 0;
+    font-size: 68px;
+    border-radius: 24px;
+}
+
+.long {
+    flex-basis: calc(50% - 10px);
+}
+
+@keyframes glow {
+    0% { box-shadow: 0 0 10px #f9fd05; }
+    50% { box-shadow: 0 0 20px #f9fd05; }
+    100% { box-shadow: 0 0 10px #f9fd05; }
+}
+
+.lgray,
+.lgray:focus {
+    background-color: #738adb;
+    transition: background-color 0.5s ease;
+}
+
+.lgray:hover {
+    background-color: #f2e94e;
+    animation: glow 2s infinite alternate;
+}
+
+.tomato,
+.tomato:focus {
+    background-color: #ff6666;
+    transition: background-color 0.4s ease;
+}
+
+.tomato:hover {
+    background-color: #f7ef56;
+    animation: glow 2s infinite alternate; 
+}
+
+.gray,
+.gray:focus {
+    background-color: #d9d9d9;
+    transition: background-color .3s ease;
+}
+
+.gray:hover {
+    background-color: #e4dd5c;
+    animation: glow 2s infinite alternate; 
+}
