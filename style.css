@@ -80,3 +80,22 @@ section {
     color: #ffffff;
     height: 49px;
 }
+
+.bar{
+    background-color: #9999993f;
+    height: 40px;
+    display: flex;
+}
+img{
+    width: 40px;
+}
+a{
+    color: orange;
+}
+a:hover{
+    color: #73dbd6;
+}
+
+marquee{
+    padding-top: 10px;
+}
