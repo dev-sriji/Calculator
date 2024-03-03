@@ -1,58 +1,112 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", function () {
+  const inputBox = document.getElementById("input");
+  let expression = "";
+  let result = "";
 
-const inputBox = document.getElementById('input');
-let expression = '';
-let result = '';
-
-function actionRecv(id,action){
-    if((expression.endsWith('÷') || expression.endsWith('%') || expression.endsWith('*') || expression.endsWith('-') || expression.endsWith('+')) && action == 'op' ){
-        expression= expression.slice(0, -1) + id;
-    }else{
+  function actionRecv(id, action) {
+    if (
+      (expression.endsWith("/") ||
+        expression.endsWith("%") ||
+        expression.endsWith("*") ||
+        expression.endsWith("-") ||
+        expression.endsWith("+")) &&
+      action === "op"
+    ) {
+      if (id === "+" || id === "-" || id === ".") {
         expression += id;
+      } else {
+        console.log(expression)
+        expression = expression.slice(0, -1) + id ;
+      }
+    } else if (action === "op" && result !== "" && expression === "") {
+      expression = result + id;
+    } else if (expression === "" && action === "op") {
+      if (!(id === "+" || id === "-" || id === ".")) {
+        expression = "Type Any Number Before The Operator";
+      } else {
+        expression += id;
+      }
+      setTimeout(() => {
+        expression = "";
+        updateDisp(expression);
+      }, 1000);
+    } else {
+      expression += id;
     }
-}
-function clear(){
-    expression = 'clearing';
-    setTimeout(() => {
-        expression = 'clearing.';
-        updateDisp(expression,'')
+  }
+  function clearQ() {
+    if (expression) {
+      expression = "Clearing";
+      setTimeout(() => {
+        expression = "Clearing.";
+        updateDisp(expression);
         setTimeout(() => {
-            expression = 'clearing..';
-            updateDisp(expression,'')
+          expression = "Clearing..";
+          updateDisp(expression);
+          setTimeout(() => {
+            expression = "Clearing...";
+            updateDisp(expression);
             setTimeout(() => {
-                expression = 'clearing...';
-                updateDisp(expression,'')
-                setTimeout(() => {
-                    expression='';
-                    updateDisp(expression,'')
-                }, 250);                
-            }, 200);
+              expression = "";
+              updateDisp(expression);
+            }, 250);
+          }, 200);
         }, 150);
-    }, 100);
-    
-}
+      }, 100);
+    } else {
+      result = "";
+      updateDisp("", result);
+    }
+  }
+  function backspace() {
+    expression = expression.slice(0, -1);
+    updateDisp(expression);
+  }
+  function equalTo() {
+    const ans = eval(expression);
+    result =
+      isNaN(ans) || !isFinite(ans)
+        ? "Syntax Error"
+        : ans < 1
+        ? parseFloat(ans.toFixed(10))
+        : parseFloat(ans.toFixed(4));
+    expression = "";
+    updateDisp(expression, result);
+  }
 
-function buttonClick(event){
+  function buttonClick(event) {
     const action = event.target.dataset.use;
-    const id = event.target.dataset.id
+    const id = event.target.dataset.id;
 
-    switch(action){
-        case 'number':
-        case 'op':
-        actionRecv(id,action)
+    switch (action) {
+      case "number":
+      case "op":
+      case "dot":
+        actionRecv(id, action);
         break;
-        case 'clear':
-        clear()
+      case "clear":
+        clearQ();
+        break;
+      case "backspace":
+        backspace();
+        break;
+      case "equalto":
+        equalTo();
         break;
     }
-    updateDisp(expression,result)
-}
+    updateDisp(expression, result);
+  }
 
-inputBox.addEventListener('click',buttonClick)
-
+  inputBox.addEventListener("click", buttonClick);
 });
 
-function updateDisp(expression,result){
-    document.getElementById('expression').textContent = expression.replace(/\*/g,'x').replace(/\//g,'÷');
-    document.getElementById('result').textContent=result;
+function updateDisp(expression, result) {
+  if (expression !== null) {
+    document.getElementById("expression").textContent = expression
+      .replace(/\*/g, "x")
+      .replace(/\//g, "÷");
+  }
+  if (result !== null) {
+    document.getElementById("result").textContent = result;
+  }
 }
